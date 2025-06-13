@@ -1,5 +1,8 @@
 const express= require("express");
 const cors= require("cors");
+const { create } = require("../mongodb_model/mongodbschema");
+const MyUser = require("../mongodb_model/mongodbschema");
+const connectToDatabase = require("../mongodbonfig");
 const app= express();
 const port=3001
 app.use(cors());
@@ -14,9 +17,12 @@ app.listen(port,()=>{
     );
     
 })
-app.post("/createdata",(req,res)=>{
+app.post("/createdata",async(req,res)=>{
     const data=req.body;
     console.log(data);
+    const createUser=await MyUser.create(data);
+    console.log(createUser);
     res.send("data recieved");
     
 })
+connectToDatabase()
